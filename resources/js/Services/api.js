@@ -1,4 +1,5 @@
-import api from './_config';
+import { options } from './_config';
+import { api } from './_api';
 
 export default {
 
@@ -10,7 +11,7 @@ export default {
     },
 
     async getStats(id) {
-        return (await api().get(`/users/${id}/stats`)).data;
+        return (await api().get(`/users/${id}/stats`, options())).data;
     },
 
     async redirectToLogin(provider) {
@@ -18,9 +19,11 @@ export default {
     },
 
     async getToken(userId) {
-        const token = (await api().post(`/login/get-token`, {userId: userId})).data;
-        console.log('token', token);
-        localStorage.setItem('token-auth', token);
+        const response = (await api().post(`/login/get-token`, {userId: userId})).data;
+
+        localStorage.setItem('userId', response.userId);
+        localStorage.setItem('token-auth', response.token);
+
         window.location.href = '/';
     },
 

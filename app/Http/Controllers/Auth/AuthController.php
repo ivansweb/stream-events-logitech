@@ -77,10 +77,14 @@ class AuthController extends Controller
     /**
      * Handle callback from provider.
      * @param Request $request
-     * @return string
+     * @return array
      */
-    public function getToken(Request $request): string
+    public function getToken(Request $request): array
     {
-        return $this->service->getToken($request->userId);
+        $response = $this->service->getToken($request->get('userId'));
+        return [
+            'userId' => $response['userId'],
+            'token' => $response['token'],
+        ];
     }
 }

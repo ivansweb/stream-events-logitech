@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,14 @@ Route::group(['prefix' => 'login'], function () {
     Route::post('/get-token', [AuthController::class, 'getToken'])->name('login.getToken');
 });
 
+
+Route::group(['middleware' => 'auth:sanctum'], function () {
+
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/{userId}/stats', [DashboardController::class, 'getStats'])->name('user.stats');
+    });
+
+});
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
