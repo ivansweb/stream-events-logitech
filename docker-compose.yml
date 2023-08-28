@@ -1,5 +1,5 @@
 services:
-  stream_events:
+  laravel.test:
     build:
       context: ./vendor/laravel/sail/runtimes/8.2
       dockerfile: Dockerfile
