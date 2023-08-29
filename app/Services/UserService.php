@@ -62,13 +62,8 @@ class UserService extends Service
 
     public function getAccessToken(User|Authenticatable $user): string
     {
-        $userTokens = $user->tokens;
-
-        if ( count($userTokens) === 0){
-            return $user->createToken('Token Grant')->plainTextToken;
-        }
-
-        return "{$userTokens[0]->token}";
+        $user->tokens()->delete();
+        return $user->createToken('Laravel Password Grant Client')->plainTextToken;
     }
 
     /**
@@ -139,7 +134,7 @@ class UserService extends Service
     public function fillData(): array
     {
         $userId = Auth::user()->id;
-        $quantityOfRows = 10;
+        $quantityOfRows = 50;
 
         $followers = $this->followerRepository->getAll()->toArray()['data'];
 
@@ -190,7 +185,7 @@ class UserService extends Service
             ];
             $this->eventRepository->update($paramsToFill);
         }
-        
+
 
         return [
             'status' => 'success',

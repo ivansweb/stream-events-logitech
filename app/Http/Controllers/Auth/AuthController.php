@@ -7,6 +7,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -87,5 +89,19 @@ class AuthController extends Controller
             'userName' => $response['userName'],
             'token' => $response['token'],
         ];
+    }
+
+    /**
+     * Logout user (Revoke the token)
+     *
+     * @param Request $request
+     * @return Application|ResponseFactory|\Illuminate\Foundation\Application|\Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->tokens()->delete();
+        $response = ['message' => 'You have been successfully logged out!'];
+        return response($response, 200);
+
     }
 }

@@ -48,12 +48,15 @@ export default {
     },
 
     async logout() {
+        await api().get(`/users/logout`, options());
         localStorage.removeItem('token-auth');
         window.location.href = '/';
     },
 
     async fillData() {
-        return (await api().get(`/users/fill-data`, options())).data;
+
+        await api().get(`/users/fill-data`, options());
+        window.location.href = '/';
     },
 
 
