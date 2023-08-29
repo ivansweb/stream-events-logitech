@@ -30,7 +30,6 @@ class EventsTableSeeder extends Seeder
         )
             ->join('users as users1', 'users1.id', '=', 'subscribers.user_id')
             ->join('users as users2', 'users2.id', '=', 'subscribers.subscriber_id')
-            ->limit(10)
             ->get();
 
 
@@ -56,7 +55,6 @@ class EventsTableSeeder extends Seeder
         )
             ->join('users as users1', 'users1.id', '=', 'followers.user_id')
             ->join('users as users2', 'users2.id', '=', 'followers.follower_id')
-            ->limit(10)
             ->get();
 
 
@@ -80,7 +78,6 @@ class EventsTableSeeder extends Seeder
         )
             ->join('users as users1', 'users1.id', '=', 'donations.user_id')
             ->join('users as users2', 'users2.id', '=', 'donations.donor_id')
-            ->limit(10)
             ->get();
 
 
@@ -104,7 +101,6 @@ class EventsTableSeeder extends Seeder
         )
             ->join('users as users1', 'users1.id', '=', 'merch_sales.user_id')
             ->join('users as users2', 'users2.id', '=', 'merch_sales.buyer_id')
-            ->limit(10)
             ->get();
 
 

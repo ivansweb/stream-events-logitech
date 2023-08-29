@@ -32,7 +32,7 @@ class MerchSaleFactory extends Factory
 
         return [
             'item_name' => $this->faker->randomElement($products),
-            'amount' => $this->faker->randomNumber(1),
+            'amount' => $this->faker->numberBetween(1, 9),
             'price' => $this->faker->randomFloat(2, 10, 100),
             'user_id' => $user->id,
             'buyer_id' => $this->faker->randomElement($donorIds),
