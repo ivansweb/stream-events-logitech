@@ -47,13 +47,35 @@ export default {
         window.location.href = (await api().get(`/login/${provider}`)).data;
     },
 
+    async logout() {
+        localStorage.removeItem('token-auth');
+        window.location.href = '/';
+    },
+
+    async fillData() {
+        return (await api().get(`/users/fill-data`, options())).data;
+    },
+
+
     async getToken(userId) {
         const response = (await api().post(`/login/get-token`, {userId: userId})).data;
 
         localStorage.setItem('userId', response.userId);
+        localStorage.setItem('userName', response.userName);
         localStorage.setItem('token-auth', response.token);
 
         window.location.href = '/';
+    },
+
+    getUserData() {
+        return {
+            'userName': localStorage.getItem('userName'),
+            'userId': localStorage.getItem('userId'),
+        };
+    },
+
+    async runSeeders(id) {
+        return (await api().get(`/users/${id}/seeder`, options())).data;
     },
 
 };

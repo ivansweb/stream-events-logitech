@@ -13,7 +13,7 @@ class SubscribersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        $totalUsers = User::count();
-        Subscriber::factory($totalUsers)->create();
+        $totalUsers = User::count() * 0.8;
+        Subscriber::factory(round($totalUsers))->create();
     }
 }

@@ -18,6 +18,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::group(['prefix' => 'users'], function () {
         Route::get('/{userId}/stats', [DashboardController::class, 'getStats'])->name('users.stats');
         Route::get('/{userId}/events', [DashboardController::class, 'getEvents'])->name('users.events');
+        Route::get('/fill-data', [DashboardController::class, 'fillData'])->name('users.seeder');
     });
 
     Route::group(['prefix' => 'events'], function () {

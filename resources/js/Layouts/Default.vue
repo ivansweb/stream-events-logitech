@@ -19,8 +19,12 @@
 
       <div class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div class="mx-auto flex max-w-2xl items-center justify-between gap-x-8 lg:mx-0 lg:max-w-none">
+          Welcome, {{ userName }}!
 
-
+          <div class="flex items-center gap-x-6">
+            <button @click="fillData" class="text-sm font-medium text-gray-900 hover:text-gray-700">Fill Data</button>
+            <button @click="logout" class="text-sm font-medium text-gray-900 hover:text-gray-700">Log out</button>
+          </div>
         </div>
       </div>
     </header>
@@ -38,26 +42,20 @@ import api from '../Services/api.js'
 export default {
   name: 'DashboardPage',
 
-  components: {
-
-  },
-
   props: {
     user: Object,
   },
 
   data() {
     return {
-
+      userName: null,
+      userId: null
     }
   },
 
   beforeMount() {
     this.verifyLogin();
-  },
-
-  created() {
-
+    this.getUserData();
   },
 
   methods: {
@@ -65,6 +63,19 @@ export default {
       return api.verifyLogin();
     },
 
+    getUserData() {
+      const res = api.getUserData();
+      this.userName = res.userName;
+      this.userId = res.userId;
+    },
+
+    logout() {
+      api.logout();
+    },
+
+    fillData() {
+      api.fillData();
+    },
   },
 }
 

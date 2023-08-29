@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\EventService;
 use App\Services\IndicatorService;
+use App\Services\UserService;
 use Exception;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,18 +23,26 @@ class DashboardController extends Controller
     public EventService $eventService;
 
     /**
+     * @var UserService
+     */
+    public UserService $userService;
+
+    /**
      * Dependency Injector
      *
      * @param IndicatorService $indicatorService
      * @param EventService $eventService
+     * @param UserService $userService
      */
     public function __construct(
         IndicatorService $indicatorService,
-        EventService $eventService
+        EventService $eventService,
+        UserService $userService
     )
     {
         $this->service = $indicatorService;
         $this->eventService = $eventService;
+        $this->userService = $userService;
     }
 
     public function index(): Response
@@ -80,5 +89,18 @@ class DashboardController extends Controller
         $events = $this->eventService->getEvents($request->user()->id);
         return response()->json($events);
 
+    }
+
+    public function fillData()
+    {
+        try {
+            return response()->json(
+                $this->userService->fillData()
+            );
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 }

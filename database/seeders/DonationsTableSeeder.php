@@ -14,6 +14,6 @@ class DonationsTableSeeder extends Seeder
     public function run(): void
     {
         $totalUsers = User::count() * 0.55;
-        Donation::factory($totalUsers)->create();
+        Donation::factory(round($totalUsers))->create();
     }
 }

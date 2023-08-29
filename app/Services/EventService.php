@@ -28,7 +28,7 @@ class EventService extends Service
      * @param int $userId
      * @return array
      */
-    public function getEvents(int $userId)
+    public function getEvents(int $userId): array
     {
         return $this->repository->getEventsByUser($userId);
     }

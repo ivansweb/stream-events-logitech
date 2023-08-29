@@ -14,6 +14,6 @@ class FollowersTableSeeder extends Seeder
     public function run(): void
     {
         $totalUsers = User::count() * 0.75;
-        Follower::factory($totalUsers)->create();
+        Follower::factory(round($totalUsers))->create();
     }
 }

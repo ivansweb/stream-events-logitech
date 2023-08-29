@@ -5,6 +5,10 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\User;
+use App\Repositories\DonationRepository;
+use App\Repositories\FollowerRepository;
+use App\Repositories\MerchSaleRepository;
+use App\Repositories\SubscriberRepository;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Exception;
@@ -22,14 +26,33 @@ use Illuminate\Support\Str;
 class UserService extends Service
 {
 
+    public SubscriberRepository $subscribersRepository;
+    public FollowerRepository $followerRepository;
+    public DonationRepository $donationRepository;
+    public MerchSaleRepository $merchSaleRepository;
+
     /**
      * Dependency Injector
      *
      * @param UserRepository $repository
+     * @param SubscriberRepository $subscribersRepository
+     * @param FollowerRepository $followerRepository
+     * @param DonationRepository $donationRepository
+     * @param MerchSaleRepository $merchSaleRepository
      * @throws Exception
      */
-    public function __construct(UserRepository $repository)
+    public function __construct(
+        UserRepository $repository,
+        SubscriberRepository $subscribersRepository,
+        FollowerRepository $followerRepository,
+        DonationRepository $donationRepository,
+        MerchSaleRepository $merchSaleRepository
+    )
     {
+        $this->subscribersRepository = $subscribersRepository;
+        $this->followerRepository = $followerRepository;
+        $this->donationRepository = $donationRepository;
+        $this->merchSaleRepository = $merchSaleRepository;
         parent::__construct($repository);
     }
 
@@ -96,8 +119,67 @@ class UserService extends Service
         Auth::login($user);
 
         return [
-            'userId' => $userId,
+            'userId' => $user->id,
+            'userName' => $user->name,
             'token' => $this->getAccessToken($user)
+        ];
+    }
+
+    /**
+     * Fill data - only to the test functionality
+     *  get the first 50 rows from each table and update the user_id column with the current user id
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function fillData(): array
+    {
+        $userId = Auth::user()->id;
+        $quantityOfRows = 10;
+
+        $followers = $this->followerRepository->getAll()->toArray()['data'];
+
+        for ($i = 0; $i < $quantityOfRows; $i++) {
+            $paramsToFill =[
+                'id' => $followers[$i]['id'],
+                'user_id' => $userId
+            ];
+            $this->followerRepository->update($paramsToFill);
+        }
+
+        $subscribers = $this->subscribersRepository->getAll()->toArray()['data'];
+
+        for ($i = 0; $i < $quantityOfRows; $i++) {
+            $paramsToFill =[
+                'id' => $subscribers[$i]['id'],
+                'user_id' => $userId
+            ];
+            $this->subscribersRepository->update($paramsToFill);
+        }
+
+        $donations = $this->donationRepository->getAll()->toArray()['data'];
+
+        for ($i = 0; $i < $quantityOfRows; $i++) {
+            $paramsToFill =[
+                'id' => $donations[$i]['id'],
+                'user_id' => $userId
+            ];
+            $this->donationRepository->update($paramsToFill);
+        }
+
+        $merchSales = $this->merchSaleRepository->getAll()->toArray()['data'];
+
+        for ($i = 0; $i < $quantityOfRows; $i++) {
+            $paramsToFill =[
+                'id' => $merchSales[$i]['id'],
+                'user_id' => $userId
+            ];
+            $this->merchSaleRepository->update($paramsToFill);
+        }
+
+
+        return [
+            'status' => 'success',
         ];
     }
 

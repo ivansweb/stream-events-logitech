@@ -84,6 +84,7 @@ class AuthController extends Controller
         $response = $this->service->getToken($request->get('userId'));
         return [
             'userId' => $response['userId'],
+            'userName' => $response['userName'],
             'token' => $response['token'],
         ];
     }

@@ -1,17 +1,14 @@
 <template>
 
   <Stats :statsData="stats.data" />
-  <pre>
-
-  </pre>
 
   <div class="mx-auto mt-4 grid max-w-2xl grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
 
     <div class="lg:col-start-3 lg:row-end-1 bg-gray-50">
-
+      <!--  TODO: revenue summary   -->
     </div>
 
-    <div class="-mx-4  shadow-lg bg-gray-50 ring-1 ring-gray-500/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16">
+    <div v-if="events.data" class="-mx-4  shadow-lg bg-gray-50 ring-1 ring-gray-500/5 sm:mx-0 sm:rounded-lg sm:px-8 sm:pb-14 lg:col-span-2 lg:row-span-2 lg:row-end-2 xl:px-16 xl:pb-20 xl:pt-16">
       <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
         <h3 class="text-base font-semibold leading-6 text-gray-900">Events</h3>
       </div>
