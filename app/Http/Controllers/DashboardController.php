@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\EventService;
 use App\Services\IndicatorService;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,13 +17,23 @@ class DashboardController extends Controller
     public IndicatorService $service;
 
     /**
+     * @var EventService
+     */
+    public EventService $eventService;
+
+    /**
      * Dependency Injector
      *
      * @param IndicatorService $indicatorService
+     * @param EventService $eventService
      */
-    public function __construct(IndicatorService $indicatorService)
+    public function __construct(
+        IndicatorService $indicatorService,
+        EventService $eventService
+    )
     {
         $this->service = $indicatorService;
+        $this->eventService = $eventService;
     }
 
     public function index(): Response
@@ -45,14 +56,29 @@ class DashboardController extends Controller
         $total = $subscribers['total'] + $donations['total'] + $merchSales['total'];
 
         return response()->json([
-            'revenue' => [
-                'subscribers' => $subscribers['by_tier'],
-                'donations' => $donations['by_currency'],
-                'merch_sales' => $merchSales,
-                'total' => '$' . number_format($total, 2, '.', ','),
+            [
+                'id' => 1,
+                'name' => 'Total Revenue',
+                'stat' => '$' . number_format($total, 2, '.', ','),
             ],
-            'followers' => count($followers),
+            [
+                'id' => 2,
+                'name' => 'Followers',
+                'stat' => count($followers),
+            ],
+            [
+                'id' => 3,
+                'name' => 'Merch Sales',
+                'stat' => $merchSales['top_sales'],
+            ],
         ]);
+
+    }
+
+    public function getEvents(Request $request)
+    {
+        $events = $this->eventService->getEvents($request->user()->id);
+        return response()->json($events);
 
     }
 }

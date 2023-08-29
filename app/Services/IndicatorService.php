@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Repositories\SubscriberRepository;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Exception;
@@ -15,7 +16,6 @@ use Illuminate\Database\Eloquent\Collection;
  */
 class IndicatorService extends Service
 {
-
     /**
      * Dependency Injector
      *
@@ -65,6 +65,7 @@ class IndicatorService extends Service
         return [
             'total' => $totalInSubscriptions,
             'by_tier' => $subscribersByLevel,
+            'subscribers' => $subscribers->toArray(),
         ];
     }
 
@@ -143,6 +144,35 @@ class IndicatorService extends Service
         return [
             'total' => $merchSales->sum('amount'),
             'top_sales' => $userTopSales->toArray(),
+        ];
+    }
+
+
+    /**
+     * @param int $userId
+     * @return array
+     */
+    public function getSubscribersEvents(int $userId): array
+    {
+        $params = [
+            'created_at' => Carbon::now()->subDays(30)->toDateTimeString(),
+        ];
+        $subscribers = $this->subscriberRepository->getSubscribers($userId, $params);
+
+        $subscriptionMessages = [];
+
+        foreach ($subscribers as $subscriber) {
+            $message = "{$subscriber->subscriber_name} ({$subscriber->subscription_level}) subscribed to you!";
+            $subscriptionMessages[] = $message;
+        }
+
+        dd(
+            $subscriptionMessages
+        );
+
+
+        return [
+            'subscribers' => $subscribers->toArray(),
         ];
     }
 
