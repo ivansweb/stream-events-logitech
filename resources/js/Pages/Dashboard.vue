@@ -2,7 +2,7 @@
 
   <Stats :statsData="stats.data" />
   <pre>
-    {{ stats }}
+<!--    {{ stats }}-->
   </pre>
 
   <div class="mx-auto mt-4 grid max-w-2xl grid-cols-1 grid-rows-1 items-start gap-x-8 gap-y-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
