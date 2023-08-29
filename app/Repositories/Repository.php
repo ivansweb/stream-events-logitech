@@ -117,11 +117,9 @@ abstract class Repository
      * Get entity by id
      *
      * @param int $id
-     * @return Model
      */
-    public function find(int $id): Model
+    public function find(int $id)
     {
         return $this->model->query()->where('id', $id)->first();
     }
-
 }

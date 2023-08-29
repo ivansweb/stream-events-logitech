@@ -8,7 +8,7 @@ use App\Models\User;
 use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Hash;
@@ -33,15 +33,15 @@ class UserService extends Service
         parent::__construct($repository);
     }
 
-    public function getAccessToken(User $user): string
+    public function getAccessToken(User|Authenticatable $user): string
     {
         $userTokens = $user->tokens;
 
-        if ( empty($userTokens) ){
+        if ( count($userTokens) === 0){
             return $user->createToken('Token Grant')->plainTextToken;
         }
 
-        return "{$userTokens[0]->id}|{$userTokens[0]->token}";
+        return "{$userTokens[0]->token}";
     }
 
     /**
@@ -86,14 +86,19 @@ class UserService extends Service
      * Get user token
      *
      * @param string $userId
-     * @return string
+     * @return array
      */
-    public function getToken(string $userId): string
+    public function getToken(string $userId): array
     {
         $userId = Crypt::decrypt($userId);
         $user = $this->repository->find($userId);
 
-        return $this->getAccessToken($user);
+        Auth::login($user);
+
+        return [
+            'userId' => $userId,
+            'token' => $this->getAccessToken($user)
+        ];
     }
 
 }
