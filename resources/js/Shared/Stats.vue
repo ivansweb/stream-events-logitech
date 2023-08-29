@@ -3,7 +3,7 @@
 
     <h3 class="text-base font-semibold leading-6 text-gray-900">Last 30 days</h3>
     <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
-      <div v-for="item in stats" :key="item.name" class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+      <div v-for="item in statsData" :key="item.name" class="overflow-hidden rounded-lg px-4 py-5 shadow sm:p-6 bg-gray-50">
         <dt class="truncate text-sm font-medium text-gray-500">{{ item.name }}</dt>
         <dd class="mt-1 text-2xl font-semibold tracking-tight text-gray-900">
 
@@ -22,23 +22,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 
-export default {
-  props: {
-    statsData:Object
-  },
+  defineProps({
+    statsData: {
+      type: Object,
+      required: true,
+    },
+  })
 
-  data() {
-    const stats = [
-      { id: 1, name: 'Total Subscribers', stat: this.statsData.revenue.total },
-      { id: 2, name: 'Followers', stat: this.statsData.followers },
-      { id: 3, name: 'Merch Sales', stat: this.statsData.revenue.merch_sales.top_sales },
-    ]
-
-    return {
-      stats,
-    }
-  },
-}
 </script>

@@ -14,6 +14,10 @@ export default {
         return (await api().get(`/users/${id}/stats`, options())).data;
     },
 
+    async getEvents(id) {
+        return (await api().get(`/users/${id}/events`, options())).data;
+    },
+
     async redirectToLogin(provider) {
         window.location.href = (await api().get(`/login/${provider}`)).data;
     },
