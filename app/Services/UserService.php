@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Repositories\DonationRepository;
+use App\Repositories\EventRepository;
 use App\Repositories\FollowerRepository;
 use App\Repositories\MerchSaleRepository;
 use App\Repositories\SubscriberRepository;
@@ -30,6 +31,7 @@ class UserService extends Service
     public FollowerRepository $followerRepository;
     public DonationRepository $donationRepository;
     public MerchSaleRepository $merchSaleRepository;
+    public EventRepository  $eventRepository;
 
     /**
      * Dependency Injector
@@ -46,13 +48,15 @@ class UserService extends Service
         SubscriberRepository $subscribersRepository,
         FollowerRepository $followerRepository,
         DonationRepository $donationRepository,
-        MerchSaleRepository $merchSaleRepository
+        MerchSaleRepository $merchSaleRepository,
+        EventRepository $eventRepository
     )
     {
         $this->subscribersRepository = $subscribersRepository;
         $this->followerRepository = $followerRepository;
         $this->donationRepository = $donationRepository;
         $this->merchSaleRepository = $merchSaleRepository;
+        $this->eventRepository = $eventRepository;
         parent::__construct($repository);
     }
 
@@ -177,6 +181,16 @@ class UserService extends Service
             $this->merchSaleRepository->update($paramsToFill);
         }
 
+        $events = $this->eventRepository->getAll()->toArray()['data'];
+
+        for ($i = 0; $i < $quantityOfRows; $i++) {
+            $paramsToFill =[
+                'id' => $events[$i]['id'],
+                'user_id' => $userId
+            ];
+            $this->eventRepository->update($paramsToFill);
+        }
+        
 
         return [
             'status' => 'success',
