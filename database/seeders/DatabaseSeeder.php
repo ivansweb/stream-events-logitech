@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             SubscribersTableSeeder::class,
             MerchSalesTableSeeder::class,
             DonationsTableSeeder::class,
+            EventsTableSeeder::class,
         ]);
     }
 }

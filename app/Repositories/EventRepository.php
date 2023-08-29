@@ -36,6 +36,8 @@ class EventRepository extends Repository
     {
         $events = $this->model
             ->where('user_id',  $userId)
+            ->orderBy('created_at', 'desc')
+            ->limit(100)
             ->get();
 
         return $events->toArray();

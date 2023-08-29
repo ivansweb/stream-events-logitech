@@ -10,7 +10,7 @@ class MerchSalesTableSeeder extends Seeder
 {
     public function run(): void
     {
-        $totalUsers = User::count() * 3;
+        $totalUsers = User::count() * 5;
         MerchSale::factory($totalUsers)->create();
     }
 }

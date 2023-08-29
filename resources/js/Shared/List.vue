@@ -20,11 +20,16 @@
             </span>
 
           </button>
-          <div class="mt-1 flex items-center gap-x-1.5">
-            <div v-show="!event.read" class="flex-none rounded-full bg-emerald-500/20 p-1">
+
+          <div v-if="event.read" class="mt-1 flex items-center gap-x-1.5">
+            <div class="flex-none rounded-full bg-emerald-500/20 p-1">
               <div class="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             </div>
-            <div v-show="event.read" class="flex-none rounded-full bg-red-500/20 p-1">
+            <p class="text-xs leading-5 text-gray-500">read</p>
+          </div>
+
+          <div v-else class="mt-1 flex items-center gap-x-1.5">
+            <div class="flex-none rounded-full bg-red-500/20 p-1">
               <div class="h-1.5 w-1.5 rounded-full bg-red-500" />
             </div>
             <p class="text-xs leading-5 text-gray-500">Unread</p>
