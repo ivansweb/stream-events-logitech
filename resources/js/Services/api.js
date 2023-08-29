@@ -18,6 +18,31 @@ export default {
         return (await api().get(`/users/${id}/events`, options())).data;
     },
 
+    async markAs(eventId, read, eventList) {
+        if(read){
+            const response = await api().put(`/events/${eventId}/mark-as-unread`, {eventId: eventId}, options());
+            if(response){
+                eventList.forEach(element => {
+                    if(element.id == eventId){
+                        element.read = false;
+                    }
+                });
+            }
+        }else{
+            const response = await api().put(`/events/${eventId}/mark-as-read`, {eventId: eventId}, options());
+            if(response){
+
+                eventList.forEach(element => {
+                    if(element.id == eventId){
+                        element.read = true;
+                    }
+                });
+            }
+        }
+
+        return eventList;
+    },
+
     async redirectToLogin(provider) {
         window.location.href = (await api().get(`/login/${provider}`)).data;
     },

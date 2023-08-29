@@ -15,7 +15,7 @@
       <div class="border-b border-gray-200 bg-gray-50 px-4 py-5 sm:px-6">
         <h3 class="text-base font-semibold leading-6 text-gray-900">Events</h3>
       </div>
-      <List :eventsData="events.data"/>
+      <List :eventsData="events.data" :markAs="markAs" />
     </div>
 
   </div>
@@ -37,6 +37,7 @@ export default {
   data() {
     return {
       userId: null,
+      loadingButton: false,
       stats: {
         loading: false,
         error: null,
@@ -79,6 +80,18 @@ export default {
         this.events.error = error;
       } finally {
         this.events.loading = false;
+      }
+    },
+
+    async markAs(eventId, read) {
+      try {
+        this.loadingButton = true;
+        this.events.data = await api.markAs(eventId, read, this.events.data);
+      } catch (error) {
+        console.error(error);
+        this.events.error = error;
+      } finally {
+        this.loadingButton = false;
       }
     },
   },

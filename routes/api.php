@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EventController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +16,13 @@ Route::group(['prefix' => 'login'], function () {
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::group(['prefix' => 'users'], function () {
-        Route::get('/{userId}/stats', [DashboardController::class, 'getStats'])->name('user.stats');
-        Route::get('/{userId}/events', [DashboardController::class, 'getEvents'])->name('user.events');
+        Route::get('/{userId}/stats', [DashboardController::class, 'getStats'])->name('users.stats');
+        Route::get('/{userId}/events', [DashboardController::class, 'getEvents'])->name('users.events');
+    });
+
+    Route::group(['prefix' => 'events'], function () {
+        Route::put('/{eventId}/mark-as-read', [EventController::class, 'markAsRead'])->name('events.markAsRead');
+        Route::put('/{eventId}/mark-as-unread', [EventController::class, 'markAsUnread'])->name('events.markAsUnread');
     });
 
 });

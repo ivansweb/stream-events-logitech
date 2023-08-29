@@ -41,6 +41,33 @@ class EventRepository extends Repository
         return $events->toArray();
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function markAsRead(int $id): array
+    {
+        $event = $this->model->find($id);
+        $event->read = true;
+        $event->save();
+
+        return $event->toArray();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     */
+    public function markAsUnread(int $id): array
+    {
+        $event = $this->model->find($id);
+        $event->read = false;
+        $event->save();
+
+        return $event->toArray();
+    }
+
+
 
 
 }

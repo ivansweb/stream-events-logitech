@@ -33,4 +33,27 @@ class EventService extends Service
         return $this->repository->getEventsByUser($userId);
     }
 
+    /**
+     * @param int $id
+     * @return bool|array
+     */
+    public function markAsRead(int $id): bool|array
+    {
+        $res = $this->repository->markAsRead($id);
+
+        return !empty($res) ? true : array('error' => 'Could not mark event as read');
+    }
+
+    /**
+     * @param int $id
+     * @return bool|array
+     */
+    public function markAsUnread(int $id): bool|array
+    {
+        $res = $this->repository->markAsUnread($id);
+
+        return !empty($res) ? true : array('error' => 'Could not mark event as unread');
+    }
+
+
 }

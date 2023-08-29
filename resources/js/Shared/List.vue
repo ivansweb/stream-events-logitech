@@ -10,7 +10,7 @@
           </div>
         </div>
         <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
-          <button type="button"
+          <button type="button" @click="markAs(event.id, event.read)"
                   class="rounded bg-indigo-50 px-2 py-1 text-xs font-semibold text-indigo-600 shadow-sm hover:bg-indigo-100">
             <span v-if="event.read">
               Mark as unread
@@ -38,11 +38,17 @@
 
 <script setup>
 
-defineProps({
-  eventsData: {
-    type: Object,
-    required: true,
-  },
-})
+  defineEmits(['markAs'])
+
+  defineProps({
+    markAs: Function,
+    eventsData: {
+      type: Object,
+      required: true,
+    },
+  })
+
+
+
 
 </script>
