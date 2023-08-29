@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Follower;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class FollowersTableSeeder extends Seeder
@@ -12,6 +13,7 @@ class FollowersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Follower::factory(600)->create();
+        $totalUsers = User::count() * 0.75;
+        Follower::factory($totalUsers)->create();
     }
 }

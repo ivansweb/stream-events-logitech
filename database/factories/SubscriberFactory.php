@@ -15,9 +15,15 @@ class SubscriberFactory extends Factory
     {
         $oldestDateLimit = Carbon::now()->subMonths(3);
 
+        $userIds = User::pluck('id')->toArray();
+        $user = User::inRandomOrder()->first();
+        $subscribersIds = array_diff($userIds, [$user->id]);
+        shuffle($subscribersIds);
+        $subscriberId = array_shift($subscribersIds);
+
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'subscriber_id' => User::inRandomOrder()->first()->id,
+            'user_id' => $user->id,
+            'subscriber_id' => $subscriberId,
             'subscription_level' => $this->faker->randomElement(['tier1', 'tier2', 'tier3']),
             'created_at' => Carbon::createFromTimestamp(rand($oldestDateLimit->timestamp, Carbon::now()->timestamp)),
         ];

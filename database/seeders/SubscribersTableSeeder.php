@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Subscriber;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class SubscribersTableSeeder extends Seeder
@@ -12,6 +13,7 @@ class SubscribersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Subscriber::factory(600)->create();
+        $totalUsers = User::count();
+        Subscriber::factory($totalUsers)->create();
     }
 }

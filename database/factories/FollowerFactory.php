@@ -15,9 +15,18 @@ class FollowerFactory extends Factory
     {
         $oldestDateLimit = Carbon::now()->subMonths(3);
 
+        /*
+         *  this logic serves to ensure that the user_id and follower_id are not the same
+         */
+        $userIds = User::pluck('id')->toArray();
+        $user = User::inRandomOrder()->first();
+        $followerIds = array_diff($userIds, [$user->id]);
+        shuffle($followerIds);
+        $followerId = array_shift($followerIds);
+
         return [
-            'user_id' => User::inRandomOrder()->first()->id,
-            'follower_id' => User::inRandomOrder()->first()->id,
+            'user_id' => $user->id,
+            'follower_id' => $followerId,
             'created_at' => Carbon::createFromTimestamp(rand($oldestDateLimit->timestamp, Carbon::now()->timestamp)),
         ];
     }

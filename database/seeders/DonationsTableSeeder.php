@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Donation;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DonationsTableSeeder extends Seeder
@@ -12,6 +13,7 @@ class DonationsTableSeeder extends Seeder
      */
     public function run(): void
     {
-        Donation::factory(600)->create();
+        $totalUsers = User::count() * 0.55;
+        Donation::factory($totalUsers)->create();
     }
 }
