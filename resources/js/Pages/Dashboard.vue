@@ -1,7 +1,7 @@
 <template>
 
+  <Stats :statsData="stats.data" />
   <pre>
-    stats
     {{ stats }}
   </pre>
 
@@ -20,15 +20,15 @@
 </template>
 
 <script>
-import api from '../Services/api.js'
+import api from '../Services/api.js';
+import Stats from '../Shared/Stats.vue';
 
 export default {
   name: 'DashboardPage',
 
   components: {
-
+    Stats
   },
-
 
   data() {
     return {

@@ -1,0 +1,38 @@
+<template>
+  <div>
+    <h3 class="text-base font-semibold leading-6 text-gray-900">Last 30 days</h3>
+    <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
+      <div v-for="item in stats" :key="item.name" class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
+        <dt class="truncate text-sm font-medium text-gray-500">{{ item.name }}</dt>
+        <dd class="mt-1 text-2xl font-semibold tracking-tight text-gray-900">
+          {{ item.stat }}
+
+          <p v-if="item.id === 1" v-for="(value, key) in item.stat" :key="key" class="ml-2 text-md font-medium text-gray-500">
+            {{ key }}: {{ value }}
+          </p>
+        </dd>
+      </div>
+    </dl>
+  </div>
+</template>
+
+<script>
+
+export default {
+  props: {
+    statsData:Object
+  },
+
+  data() {
+    const stats = [
+      // { id: 1, name: 'Total Subscribers', stat: this.statsData.revenue.subscribers },
+      // { id: 2, name: 'Followers', stat: this.statsData.followers },
+      // { id: 3, name: 'Avg. Click Rate', stat: this.statsData.revenue.merch_sales.top_sales },
+    ]
+
+    return {
+      stats,
+    }
+  },
+}
+</script>
