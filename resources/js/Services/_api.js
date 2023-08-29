@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = process.env.APP_URL + '/api';
+const baseURL = 'https://stream-events.ivansweb.com.br/api';
 
 export const api = () => axios.create({
     baseURL: baseURL,
