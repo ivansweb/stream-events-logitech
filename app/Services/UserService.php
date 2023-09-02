@@ -134,7 +134,7 @@ class UserService extends Service
     public function fillData(): array
     {
         $userId = Auth::user()->id;
-        $quantityOfRows = rand(40, 150);
+        $quantityOfRows = rand(40, 60);
 
         $followers = $this->followerRepository->getAll()->toArray()['data'];
 
