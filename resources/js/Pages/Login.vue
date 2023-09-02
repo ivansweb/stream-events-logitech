@@ -1,30 +1,80 @@
 <template>
-  
+  <div class="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+    <div class="max-w-screen-xl m-0 sm:m-10 bg-white shadow sm:rounded-lg flex justify-center flex-1">
+      <div class="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
+        <div class="mt-12 flex flex-col items-center">
+          <h1 class="text-2xl xl:text-3xl font-extrabold">
+            Sign up or Sign in
+          </h1>
+          <div class="w-full flex-1 mt-8">
+            <div class="flex flex-col items-center">
+              <button @click="registerOrSignIn('google')"
+                      class="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-indigo-100 text-gray-800 flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline mt-5">
+                <div class="bg-white p-1 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0 0 48 48">
+                    <linearGradient id="PgB_UHa29h0TpFV_moJI9a_9a46bTk3awwI_gr1" x1="9.816" x2="41.246" y1="9.871"
+                                    y2="41.301" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stop-color="#f44f5a"></stop>
+                      <stop offset=".443" stop-color="#ee3d4a"></stop>
+                      <stop offset="1" stop-color="#e52030"></stop>
+                    </linearGradient>
+                    <path fill="url(#PgB_UHa29h0TpFV_moJI9a_9a46bTk3awwI_gr1)"
+                          d="M45.012,34.56c-0.439,2.24-2.304,3.947-4.608,4.267C36.783,39.36,30.748,40,23.945,40	c-6.693,0-12.728-0.64-16.459-1.173c-2.304-0.32-4.17-2.027-4.608-4.267C2.439,32.107,2,28.48,2,24s0.439-8.107,0.878-10.56	c0.439-2.24,2.304-3.947,4.608-4.267C11.107,8.64,17.142,8,23.945,8s12.728,0.64,16.459,1.173c2.304,0.32,4.17,2.027,4.608,4.267	C45.451,15.893,46,19.52,46,24C45.89,28.48,45.451,32.107,45.012,34.56z"></path>
+                    <path
+                        d="M32.352,22.44l-11.436-7.624c-0.577-0.385-1.314-0.421-1.925-0.093C18.38,15.05,18,15.683,18,16.376	v15.248c0,0.693,0.38,1.327,0.991,1.654c0.278,0.149,0.581,0.222,0.884,0.222c0.364,0,0.726-0.106,1.04-0.315l11.436-7.624	c0.523-0.349,0.835-0.932,0.835-1.56C33.187,23.372,32.874,22.789,32.352,22.44z"
+                        opacity=".05"></path>
+                    <path
+                        d="M20.681,15.237l10.79,7.194c0.689,0.495,1.153,0.938,1.153,1.513c0,0.575-0.224,0.976-0.715,1.334	c-0.371,0.27-11.045,7.364-11.045,7.364c-0.901,0.604-2.364,0.476-2.364-1.499V16.744C18.5,14.739,20.084,14.839,20.681,15.237z"
+                        opacity=".07"></path>
+                    <path fill="#fff"
+                          d="M19,31.568V16.433c0-0.743,0.828-1.187,1.447-0.774l11.352,7.568c0.553,0.368,0.553,1.18,0,1.549	l-11.352,7.568C19.828,32.755,19,32.312,19,31.568z"></path>
+                  </svg>
+                </div>
+                <span class="ml-4">
+                    With Youtube
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-1 bg-indigo-100 text-center hidden lg:flex">
+        <div class="m-12 xl:m-16 w-full bg-contain bg-center bg-no-repeat"
+             style="background-image: url('https://storage.googleapis.com/devitary-image-host.appspot.com/15848031292911696601-undraw_designer_life_w96d.svg');">
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+<script>
+import api from '../Services/api.js'
+import Login from '../Layouts/Login.vue';
 
-<script setup>
-import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/vue/24/outline'
-
-
-
-const user = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-      '',
+export default {
+  name: 'LoginPage',
+  layout: Login,
+  props: {
+    user: Object,
+  },
+  data() {
+    return {
+      loading: false
+    }
+  },
+  created() {
+    this.login();
+  },
+  methods: {
+    registerOrSignIn(provider) {
+      api.redirectToLogin(provider);
+    },
+    login() {
+      console.log('login', this.user);
+      if (this.user) {
+        this.loading = true;
+        api.getToken(this.user)
+      }
+    },
+  },
 }
-const navigation = [
-  { name: 'Dashboard', href: '#', current: true },
-  { name: 'Team', href: '#', current: false },
-  { name: 'Projects', href: '#', current: false },
-  { name: 'Calendar', href: '#', current: false },
-  { name: 'Reports', href: '#', current: false },
-]
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
 </script>
