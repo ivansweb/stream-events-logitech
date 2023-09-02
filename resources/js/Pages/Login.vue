@@ -53,17 +53,21 @@ import Login from '../Layouts/Login.vue';
 export default {
   name: 'LoginPage',
   layout: Login,
+
   props: {
     user: Object,
   },
+
   data() {
     return {
       loading: false
     }
   },
+
   created() {
     this.login();
   },
+
   methods: {
     registerOrSignIn(provider) {
       api.redirectToLogin(provider);
